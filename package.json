@@ -1,6 +1,6 @@
 {
   "name": "gulp-deps-map",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "a plugins to analysis dependences in files",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,38 @@
   "dependencies": {
     "event-stream": "^3.3.2",
     "gulp-concat": "^2.6.0",
-    "gulp-strip-comments": "^2.4.3",
     "gulp-util": "^3.0.7"
-  }
+  },
+  "gitHead": "9e86378cef56967ba9dfa66d08d6a6748d316867",
+  "_id": "gulp-deps-map@1.0.1",
+  "_shasum": "5e955e54def879802e600380e040a1558689d6ba",
+  "_from": "gulp-deps-map@>=1.0.1 <2.0.0",
+  "_npmVersion": "2.11.2",
+  "_nodeVersion": "0.12.5",
+  "_npmUser": {
+    "name": "gorphone",
+    "email": "gorphone@gmail.com"
+  },
+  "dist": {
+    "shasum": "5e955e54def879802e600380e040a1558689d6ba",
+    "size": 1540,
+    "noattachment": false,
+    "key": "/gulp-deps-map/-/gulp-deps-map-1.0.1.tgz",
+    "tarball": "http://r.npm.sankuai.com/gulp-deps-map/download/gulp-deps-map-1.0.1.tgz"
+  },
+  "maintainers": [
+    {
+      "name": "gorphone",
+      "email": "gorphone@gmail.com"
+    }
+  ],
+  "_npmOperationalInternal": {
+    "host": "packages-12-west.internal.npmjs.com",
+    "tmp": "tmp/gulp-deps-map-1.0.1.tgz_1461039077967_0.19942545727826655"
+  },
+  "directories": {},
+  "publish_time": 1461039078386,
+  "_cnpm_publish_time": 1461039078386,
+  "_resolved": "http://r.npm.sankuai.com/gulp-deps-map/download/gulp-deps-map-1.0.1.tgz",
+  "readme": "ERROR: No README data found!"
 }
