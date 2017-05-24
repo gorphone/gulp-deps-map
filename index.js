@@ -69,7 +69,7 @@ var getDeps = function (file) {
             deps: _unique_trim(_deps.concat(shim_deps).concat(comment_deps))
         });
     } else {
-        R = /(^|\W|\s)angular\s*\.\s*module\s*\(\s*['"]([\w\d_\.-]+)['"]\s*,\s*\[([^\]]*)\]\s*\)/gm;
+        R = /(^|\W|\s)angular\s*\.\s*module\s*\(\s*['"]([\w\d_\.-]+)['"]\s*,\s*\[([^\]\\\/]*)\]\s*\)/gm;
         // angular的模块
         while ((matchs = R.exec(content))) {
             if (matchs.length) {
@@ -171,3 +171,4 @@ module.exports = function (conf, filename) {
         depsReduce()
     );
 };
+;

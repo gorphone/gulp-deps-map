@@ -1,6 +1,6 @@
 {
   "name": "gulp-deps-map",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "a plugins to analysis dependences in files",
   "main": "index.js",
   "scripts": {
