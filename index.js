@@ -2,9 +2,9 @@
 var crypto = require('crypto');
 var es = require('event-stream');
 var path = require('path');
+var strip = require('strip-comments');
 var gutil = require('gulp-util');
 var concat = require('gulp-concat');
-// var strip = require('gulp-strip-comments');
 /**
  * {
     "alias": {
@@ -69,23 +69,28 @@ var getDeps = function (file) {
             deps: _unique_trim(_deps.concat(shim_deps).concat(comment_deps))
         });
     } else {
-        R = /(^|\W|\s)angular\s*\.\s*module\s*\(\s*['"]([\w\d_\.-]+)['"]\s*,\s*\[([^\]\\\/]*)\]\s*\)/gm;
-        // angular的模块
-        while ((matchs = R.exec(content))) {
-            if (matchs.length) {
-                _id = matchs[2].trim();
-                _deps = matchs[3].replace(/['"\r\n\s*]/g, '').split(',');
-                if (shim[_id]) {
-                    shim_deps = shim[_id].deps;
+        try {
+            var strip_content = strip(content); // 去掉注释，只分析代码里的依赖
+            R = /(^|\W|\s)angular\s*\.\s*module\s*\(\s*['"]([\w\d_\.-]+)['"]\s*,\s*\[([^\]]*)\]\s*\)/gm;
+            // angular的模块
+            while ((matchs = R.exec(strip_content))) {
+                if (matchs.length) {
+                    _id = matchs[2].trim();
+                    _deps = matchs[3].replace(/['"\r\n\s*]/g, '').split(',');
+                    if (shim[_id]) {
+                        shim_deps = shim[_id].deps;
+                    }
+                    deps.push({
+                        id: _id,
+                        md5: md5,
+                        type: 'js',
+                        path: relativePath,
+                        deps: _unique_trim(_deps.concat(shim_deps).concat(comment_deps))
+                    });
                 }
-                deps.push({
-                    id: _id,
-                    md5: md5,
-                    type: 'js',
-                    path: relativePath,
-                    deps: _unique_trim(_deps.concat(shim_deps).concat(comment_deps))
-                });
             }
+        } catch (e) {
+            console.log(('[warn] gulp-deps-map file ignore:' + relativePath).yellow);
         }
     }
 
@@ -171,4 +176,4 @@ module.exports = function (conf, filename) {
         depsReduce()
     );
 };
-;
+

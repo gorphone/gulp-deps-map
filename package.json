@@ -1,6 +1,6 @@
 {
   "name": "gulp-deps-map",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "a plugins to analysis dependences in files",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,8 @@
   "dependencies": {
     "event-stream": "^3.3.2",
     "gulp-concat": "^2.6.0",
-    "gulp-util": "^3.0.7"
+    "gulp-util": "^3.0.7",
+    "strip-comments": "^0.4.4"
   },
   "gitHead": "9e86378cef56967ba9dfa66d08d6a6748d316867",
   "_id": "gulp-deps-map@1.0.1",
