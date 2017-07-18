@@ -97,7 +97,7 @@ var getDeps = function (file) {
     return deps;
 };
 
-var getDepsFiles = function (base) {
+var getDepsFiles = function () {
     return function getDepsFile (file, cb) {
         if (file.processedByTempDepsMap) {
             return cb(null, file);
@@ -131,8 +131,8 @@ var getDepsFiles = function (base) {
     };
 };
 
-var depsMap = function (base) {
-    return es.map(getDepsFiles(base));
+var depsMap = function () {
+    return es.map(getDepsFiles());
 };
 
 var depsReduce = function () {
@@ -143,11 +143,31 @@ var depsReduce = function () {
         deps = deps.map(function (dep) {
             return JSON.parse(dep);
         });
+        // 去掉min文件重合的问题
+        var depsCacheObj = {};
+
+        deps.forEach(function (dep){
+            if (depsCacheObj[dep.id] === undefined) {
+                depsCacheObj[dep.id] = {
+                    paths: [],
+                    hasMinFile: false
+                }
+            } else if(depsCacheObj[dep.id].hasMinFile) {
+                return;
+            }
+
+            depsCacheObj[dep.id].paths.push(dep.path);
+            var requiredMinPath = dep.path.indexOf('.min.js') > -1 ? dep.path : dep.path.replace('.js', '.min.js');
+
+            depsCacheObj[dep.id].paths.some(function(path){
+                return path === requiredMinPath;
+            }) && (depsCacheObj[dep.id].hasMinFile = true);
+        });
 
         var maps = {};
 
         deps.forEach(function (item) {
-            if (!maps[item.id]) {
+            if (!maps[item.id] && (depsCacheObj[item.id].hasMinFile && item.path.indexOf('.min.js') > -1 || !depsCacheObj[item.id].hasMinFile)) {
                 maps[item.id] = item;
                 delete item.id;
             }
@@ -171,9 +191,8 @@ module.exports = function (conf, filename) {
 
     return es.pipeline(
         // strip(),
-        depsMap(''),
+        depsMap(),
         concat(filename),
         depsReduce()
     );
 };
-
